@@ -1,7 +1,7 @@
 import pandas as pd 
 import pyodbc
 conn = pyodbc.connect('Driver={SQL Server};'
-'Server=172.17.xx.xx;'
+'Server=10.15.xx.xx;'
 'Database=DWH;'
 'Trusted_Connection=yes;')
 
