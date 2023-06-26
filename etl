@@ -1,0 +1,33 @@
+import pandas as pd 
+import pyodbc
+conn = pyodbc.connect('Driver={SQL Server};'
+'Server=172.17.xx.xx;'
+'Database=CH_DWH;'
+'Trusted_Connection=yes;')
+
+# DF PAISES 
+df_Paises = pd.read_sql_query('SELECT * FROM tbl_paises', conn)
+index_labels=['intid']
+print(df_Paises) 
+
+# DF CIUDADES 
+df_Ciudades = pd.read_sql_query('SELECT * FROM tbl_Ciudades', conn)
+print(df_Ciudades)
+
+# DF PAISES_CIUDADES
+df_PaisesCiudades  = df_Paises.merge(df_Ciudades, left_on='intid', right_on='intIdPais')
+print(df_PaisesCiudades)
+
+# DF PAISES_CIUDADES OPEACIÓN ='COLOMBIA'
+df_PaisesCiudadesOperacion = df_PaisesCiudades[['strNombre_x','strNombre_y']]
+print(df_PaisesCiudadesOperacion)
+
+#df_PaisesCiudadesOperacion = df_PaisesCiudadesOperacion['strNombre_x']=='COLOMBIA'
+#print(df_PaisesCiudadesOperacion)
+
+cursor = conn.cursor()
+# Insert Dataframe into SQL Server:
+for index, row in df_PaisesCiudadesOperacion.iterrows():
+     cursor.execute("INSERT INTO tbl_paisesCiudades (strNombrePais,strNombreciudad) values(?,?)", row.strNombre_x, row.strNombre_y)
+conn.commit()
+cursor.close()
