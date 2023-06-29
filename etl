@@ -19,11 +19,9 @@ df_PaisesCiudades  = df_Paises.merge(df_Ciudades, left_on='intid', right_on='int
 print(df_PaisesCiudades)
 
 # DF PAISES_CIUDADES OPEACIÓN ='COLOMBIA'
-df_PaisesCiudadesOperacion = df_PaisesCiudades[['strNombre_x','strNombre_y']]
+df_PaisesCiudadesOperacion = df_PaisesCiudades[df_PaisesCiudades.strNombre_x == 'COLOMBIA'][['strNombre_x','strNombre_y']][:5]
 print(df_PaisesCiudadesOperacion)
 
-#df_PaisesCiudadesOperacion = df_PaisesCiudadesOperacion['strNombre_x']=='COLOMBIA'
-#print(df_PaisesCiudadesOperacion)
 
 cursor = conn.cursor()
 # Insert Dataframe into SQL Server:
